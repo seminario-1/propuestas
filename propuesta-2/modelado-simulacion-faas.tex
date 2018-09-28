@@ -1,0 +1,96 @@
+\documentclass[12pt, twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[letterpaper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage{utopia}
+%\usepackage[nottoc]{tocbibind}
+\usepackage{hyperref}
+\usepackage{booktabs}
+%\hypersetup{
+%    colorlinks=true,
+%    linkcolor=blue,
+%    filecolor=magenta,      
+%    urlcolor=cyan
+%}
+
+
+
+\usepackage{setspace}
+\doublespacing
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+
+\usepackage{graphicx}
+\graphicspath{ {imagenes/} }
+
+\setcounter{tocdepth}{4}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\thispagestyle{plain}
+\begin{titlepage}
+	\begin{center}
+        {\fontsize{24}{28}\fontfamily{phv}\selectfont \textbf{Instituto Tecnológico de Costa Rica}\\}
+        \vspace{1cm}
+        {\fontsize{20}{24}\fontfamily{phv}\selectfont \textbf{Escuela de Ingeniería en Computación}\\}
+        {\fontsize{18}{22}\fontfamily{phv}\selectfont \textbf{Programa de Maestría en Computación}\\}
+        \vspace{2cm}
+        {\fontsize{20}{24}\fontfamily{phv}\selectfont \textbf{Modelado y simulación de funciones en la nube (\textit{Function-as-a-Service)}}}        
+    
+    
+        \vspace{2cm}
+        {\fontsize{14}{17}\fontfamily{phv}\selectfont \textbf{Propuesta de Tesis sometida a consideración del Departamento de Computación, para optar por el grado de Magíster Scientiae en Computación, con énfasis en Ciencias de la Computación
+}}
+        
+       \vspace{1.5cm}
+       {\fontsize{14}{17}\fontfamily{phv}\selectfont \textbf{Estudiante\\ Carlos Martín Flores González}} 
+       
+       \vspace{1cm}
+       {\fontsize{14}{17}\fontfamily{phv}\selectfont \textbf{Profesor Asesor\\ Ignacio Trejos Zelaya}}
+       
+       \vspace{1.5cm}
+       {\fontsize{14}{17}\fontfamily{phv}\selectfont \textbf{Noviembre, 2018}}                       
+        
+    \end{center}
+\end{titlepage}
+
+%\maketitle
+\pagenumbering{roman} 
+\renewcommand*\contentsname{Indice}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\chapter{Introducción}
+\pagenumbering{arabic}
+\input{capitulos/introduccion}
+
+\chapter{Antecedentes}
+\input{capitulos/antecedentes}
+
+\chapter{Definición del Problema}
+\input{capitulos/problema}
+
+\chapter{Justificación}
+\section{Innovación}
+\section{Impacto}
+\section{Profundidad}
+
+\chapter{Objetivos}
+\input{capitulos/objetivos}
+
+\chapter{Alcance}
+
+\chapter{Entregables}
+
+\chapter{Metodología}
+
+\chapter{Cronograma de actividades}
+
+\bibliographystyle{ieeetr}
+\bibliography{referencias}
+
+\end{document}
