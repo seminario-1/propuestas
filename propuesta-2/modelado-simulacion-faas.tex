@@ -25,6 +25,9 @@
 \usepackage{graphicx}
 \graphicspath{ {imagenes/} }
 
+\usepackage[mark,markifdirty]{gitinfo2}
+\renewcommand{\gitMark}{\centering{Branch: \gitBranch,@\,\gitAbbrevHash{} \textbullet{} Release:\gitReln{} (\gitAuthorIsoDate)\\ Commiter:\gitCommitterName, Head tags:\gitTags} \textbullet{} References: \gitReferences}
+
 \setcounter{tocdepth}{4}
 \setlength{\parskip}{1em}
 
@@ -38,7 +41,7 @@
         {\fontsize{20}{24}\fontfamily{phv}\selectfont \textbf{Escuela de Ingeniería en Computación}\\}
         {\fontsize{18}{22}\fontfamily{phv}\selectfont \textbf{Programa de Maestría en Computación}\\}
         \vspace{2cm}
-        {\fontsize{20}{24}\fontfamily{phv}\selectfont \textbf{Modelado y simulación de funciones en la nube (\textit{Function-as-a-Service)}}}        
+        {\fontsize{20}{24}\fontfamily{phv}\selectfont \textbf{Modelado y simulación de funciones en la nube (\textit{Function-as-a-Service)}}}    
     
     
         \vspace{2cm}
