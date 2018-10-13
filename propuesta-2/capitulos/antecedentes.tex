@@ -157,6 +157,13 @@ La figura \ref{fig:dml-instance} muestra la relación de los diferentes modelos 
 \subsection{Computación en nube}
 La computación en la nube ha traído consigo nuevos estilos en la forma en cómo se desarrolla y se pone en producción el software. Esto motivado por ... \textbf{[EXTENDER]}
 
+\subsubsection{\emph{Serverless y Function-as-a-Service}}
+FaaS es un área de lo que hoy se conoce como computación sin servidores o \emph{serverless computing}. Amazon.com, uno de los principales propulsores de esta tendencia define \emph{serverless} como una tecnología la cual permite construir y ejecutar aplicaciones y servicios sin necesidad de pensar en los servidores. Las aplicaciones \emph{serverless} no requieren de aprovisionamiento, escalamiento y administración de ningún servidor. Se puede construir con ella casi cualquier tipo de aplicación o servicio, y todo lo que se requiere para ejecutar y escalar la aplicación con alta disponibilidad es gestionado por el proveedor del servicio\cite{amazon:serverless-definition}. 
+
+FaaS se refiere a un tipo de aplicación \emph{serverless} en donde la lógica del lado del servidor es escrita por un desarrollador pero, a diferencia de arquitecturas tradicionales, esta se ejecuta en contenedores de cómputo que no mantienen estado, son activados por medio de eventos, son efímeros (pueden durar solo una invocación) y son totalmente administrados por un tercero\cite{mike-roberts-serverless}.
+
+Cabe destacar que aunque el término \emph{serverless} ha llegado a ser utilizado para referirse de forma directa a plataformas FaaS, hoy en día las aplicaciones de \emph{serverless computing} abarcan otros tipos de servicios como almacenamiento, mensajería, análisis de datos, seguridad, entre otros.
+
 
 \subsection{Trabajos relacionados}
 
@@ -171,11 +178,11 @@ El reporte de \cite{DBLP:journals/corr/BrunnertHWDHHHJ15} también proporciona u
 \textbf{[INCLUIR ESTUDIOS EN DONDE SI SE HA HECHO INVESTIGACION DE SPE Y MICROSERVICIOS?]}
 
 \subsubsection{\emph{Serverless y Function-as-a-Service}}
-FaaS es un área de lo que hoy se conoce como computación sin servidores o \emph{serverless computing}. Amazon.com, uno de los principales propulsores de esta tendencia define \emph{serverless} como una tecnología la cual permite construir y ejecutar aplicaciones y servicios sin necesidad de pensar en los servidores. Las aplicaciones \emph{serverless} no requieren de aprovisionamiento, escalamiento y administración de ningún servidor. Se puede construir con ella casi cualquier tipo de aplicación o servicio, y todo lo que se requiere para ejecutar y escalar la aplicación con alta disponibilidad es gestionado por el proveedor del servicio\cite{amazon:serverless-definition}. 
-
-FaaS se refiere a un tipo de aplicación \emph{serverless} en donde la lógica del lado del servidor es escrita por un desarrollador pero, a diferencia de arquitecturas tradicionales, esta se ejecuta en contenedores de cómputo que no mantienen estado, son activados por medio de eventos, son efímeros (pueden durar solo una invocación) y son totalmente administrados por un tercero\cite{mike-roberts-serverless}.
-
-Cabe destacar que aunque el término \emph{serverless} ha llegado a ser utilizado para referirse de forma directa a plataformas FaaS, hoy en día la aplicaciones de \emph{serverless computing} abarcan otros tipos de servicios como almacenamiento, mensajería, análisis de datos, seguridad, entre otros.
+%FaaS es un área de lo que hoy se conoce como computación sin servidores o \emph{serverless computing}. Amazon.com, uno de los principales propulsores de esta tendencia define \emph{serverless} como una tecnología la cual permite construir y ejecutar aplicaciones y servicios sin necesidad de pensar en los servidores. Las aplicaciones \emph{serverless} no requieren de aprovisionamiento, escalamiento y administración de ningún servidor. Se puede construir con ella casi cualquier tipo de aplicación o servicio, y todo lo que se requiere para ejecutar y escalar la aplicación con alta disponibilidad es gestionado por el proveedor del servicio\cite{amazon:serverless-definition}. 
+%
+%FaaS se refiere a un tipo de aplicación \emph{serverless} en donde la lógica del lado del servidor es escrita por un desarrollador pero, a diferencia de arquitecturas tradicionales, esta se ejecuta en contenedores de cómputo que no mantienen estado, son activados por medio de eventos, son efímeros (pueden durar solo una invocación) y son totalmente administrados por un tercero\cite{mike-roberts-serverless}.
+%
+%Cabe destacar que aunque el término \emph{serverless} ha llegado a ser utilizado para referirse de forma directa a plataformas FaaS, hoy en día la aplicaciones de \emph{serverless computing} abarcan otros tipos de servicios como almacenamiento, mensajería, análisis de datos, seguridad, entre otros.
 
 Los investigadores han empezado a describir y analizar FaaS a través de encuestas y experimentos\cite{DBLP:journals/corr/BaldiniCCCFIMMR17,Crane:2017:ESA:3121050.3121086,8360324}, y también por análisis económicos\cite{7515686,8247460}, sin embargo se reporta que aún no se conoce mucho acerca de SPE en FaaS. En \cite{Heinrich:2017:PEM:3053600.3053653} se menciona que al igual que con microservicios, FaaS también requiere de nuevas estrategias de modelado para capturar el comportamiento del código bajo estas infraestructuras. Los modelos de rendimiento tradicionales basados en en la noción de máquinas independientes podría ser inadecuado. 
 
