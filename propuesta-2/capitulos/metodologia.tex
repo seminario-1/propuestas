@@ -1,0 +1,48 @@
+\section{Selección de caso de uso}
+Uno de los principales problemas de hacer ingeniería de rendimiento para software en la nube es que no existen aplicaciones de referencia las cuales hayan ganado popularidad o bien que su desarrollo se encuentre activo. A pesar de esto y de su reciente adopción, la industria ha empezado a reconocer casos de uso en donde aplicaciones \emph{serverless} encajan mejor. Amazon Web Services(AWS)\cite{serverless-architecture-patterns} reconoce cinco patrones de uso predominantes en su servicio AWS Lambda:
+\begin{enumerate}
+    \item Procesamiento de datos dirigidos por eventos
+    \item Aplicaciones Web
+    \item Aplicaciones móviles e Internet las cosas (IoT)
+    \item Ecosistemas de aplicaciones \emph{serverless}
+    \item Flujos de trabajo dirigidos eventos
+\end{enumerate}
+ 
+Uno de las aplicaciones más comunes en \emph{serverless} es desencadenar acciones luego de que ocurre un evento, por ejemplo luego de la modificación de un registro en una base de datos o bien luego de que se publica un mensaje en una cola de mensajería. Esto puede provocar que se active una función lambda que toma como entrada el evento recién publicado para su posterior procesamiento. Este estilo de caso de uso encaja bien en ambientes híbridos: ambientes en donde tecnologías \emph{serverless} se aprovechan para realizar funciones específicas dentro de una aplicación (o aplicaciones) más grande.
+
+AWS ha publicado una serie de arquitecturas de referencias\cite{aws-lambda-ref-arch} para su plataforma FaaS, AWS Lambda. Dentro de estas arquitecturas se destaca el caso de uso de un manejador de imágenes (\emph{Image Handler})\cite{aws-lambda-image-handler}. 
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=15cm]{serverless-image-handler-architecture}
+  \caption[Arquitectura del manejador de imágenes]{Arquitectura del manejador de imágenes. Tomado de \protect\cite{aws-lambda-image-handler}}
+  \label{fig:serverless-image-handler-architecture}
+\end{figure}
+
+\subsection{\emph{Manejador de imágenes}} \label{sec:manejador-imagenes-1}
+Sitios Web con imágenes grandes pueden experimentar tiempos de carga prolongados, es por esto que los desarrolladores proporcionan diferentes versiones de cada imagen para que se acomoden a distintos anchos de banda o diseños de página. Para brindar tiempos de respuesta cortos y disminuir el costo de la optimización, manipulación y procesamiento de las imágenes, AWS propone un manejador de imágenes \emph{serverless}, para que de esta forma se le pueda delegar este trabajo a una función lambda y a la plataforma FaaS.
+
+
+A continuación se describe la arquitectura de la figura \ref{fig:serverless-image-handler-architecture}:
+\begin{enumerate}
+    \item Amazon CloudFront provee una capa de \emph{cache} para reducir el costo del procesamiento de la imagen
+    \item Amazon API Gateway brinda acceso por medio de HTTP a las función Lambda
+    \item AWS Lambda obtiene la imagen de un repositorio de Amazon Simple Storage Service (Amazon S3) y por medio de la implementación de la función se retorna una versión modificada de la imagen al API Gateway
+    \item El API Gateway retorna una nueva imagen a CloudFront para su posterior entrega a los usuarios finales
+\end{enumerate}
+
+Cabe mencionar que en este contexto, una versión modificada de una imagen será cualquier imagen que haya presentado algún tipo de alteración con respeto a una imagen original como por ejemplo cambios de tamaño, color, metadatos, etc.
+
+\subsection{Manejador de imágenes para SPE}
+Para este estudio se propone implementar una variación del manejador de imágenes de la sección \ref{sec:manejador-imagenes-1}, que se muestra en la figura \ref{fig:serverless-image-handler-architecture-spe}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=15cm]{serverless-image-handler-architecture-spe}
+  \caption[Arquitectura del manejador de imágenes propuesto para el estudio]{Arquitectura del manejador de imágenes propuesto para el estudio.}
+  \label{fig:serverless-image-handler-architecture-spe}
+\end{figure}
+
+Se han dejado por fuerta intencionalmente el AWS CloudFront y el AWS API Gateway. La razón de esto es porque se pretende ejercitar la función Lambda directamentamente. Se implementará una función Lambda que entregue a partir de una imagen, otra con dimensiones diferentes. Por ejemplo si la imagen original mide 500 pixeles de ancho y alto, entregar una con dimensiones de 100 pixeles de ancho y alto. 
+
+A la función Lambda se le realizarán pruebas con imágenes de entrada de distinto tamaño para evaluar su comportamiento bajo estos escenarios, particularmente del tiempo de respuesta de la función. Los resultados obtenidos a partir de estas pruebas van a servir como un punto de referencia para experimentos futuros. 
