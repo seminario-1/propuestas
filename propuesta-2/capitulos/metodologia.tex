@@ -50,14 +50,14 @@ A la función Lambda se le realizarán pruebas con imágenes de entrada de disti
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=15cm]{serverless-image-handler-architecture-workflow}
+  \includegraphics[width=17cm]{serverless-image-handler-architecture-workflow-2}
   \caption[Carga de trabajo sugerida para el manejador de imágenes]{Carga de trabajo sugerida para el manejador de imágenes}
   \label{fig:serverless-image-handler-architecture-workflow}
 \end{figure}
 
 \begin{enumerate}
-    \item 1000 solicitudes de cambio de tamaño de una imagen grande (5Mb o más)
-    \item 1000 solicitudes de cambio de tamaño de una imagen pequeña (menor o igual a 500Kb)
+    \item 1000 solicitudes de cambio de tamaño de una imagen grande. En la figura \ref{fig:serverless-image-handler-architecture-workflow}, \texttt{imagen-2.jpg} de tamaño de 5Mb, representa una imagen grande.
+    \item 1000 solicitudes de cambio de tamaño de una imagen pequeña. En la figura \ref{fig:serverless-image-handler-architecture-workflow}, \texttt{imagen-1.jpg} de tamaño menor o igual a 500Kb, representa una imagen pequeña.
 \end{enumerate}
 
 En principio las cargas de trabajo generadas serían cerradas, lo que quiere decir que una solicitud se ejecuta solamente hasta que la anterior se termina. Esto ayudará en principio a tener mejor trazabilidad de lo que ocurre con la función.
@@ -99,7 +99,7 @@ A partir de las cargas de trabajo a las que fue sometida la función Lambda, mé
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=17cm]{flujo-de-trabajo-propuesto}
+  \includegraphics[width=17cm]{flujo-de-trabajo-propuesto-2}
   \caption{Enfoque de trabajo propuesto}
   \label{fig:flujo-de-trabajo-propuesto}
 \end{figure}
