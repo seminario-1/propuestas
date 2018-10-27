@@ -44,7 +44,9 @@ Para este estudio se propone implementar una variación del manejador de imágen
   \label{fig:serverless-image-handler-architecture-spe}
 \end{figure}
 
-Se han dejado por fuerta intencionalmente el AWS CloudFront y el AWS API Gateway. La razón de esto es porque se pretende ejercitar la función Lambda directamentamente. Se implementará una función Lambda que entregue a partir de una imagen, otra con dimensiones diferentes. Por ejemplo si la imagen original mide 500 pixeles de ancho y alto, entregar una con dimensiones de 100 pixeles de ancho y alto. 
+Se han dejado por fuerta intencionalmente el AWS CloudFront y el AWS API Gateway. La razón de esto es porque se pretende ejercitar la función Lambda directamente. Se implementará una función Lambda que entregue a partir de una solicitud de redimensionamiento de una imagen almacenada, otra con dimensiones diferentes producida ``al vuelo'' como respuesta a la solicitud. Por ejemplo, si la imagen original mide 500 pixeles de ancho y alto, entregar una con dimensiones de 100 pixeles de ancho y alto. 
+
+De acuerdo con la figura 8.3
 
 A la función Lambda se le realizarán pruebas con imágenes de entrada de distinto tamaño para evaluar su comportamiento bajo estos escenarios, particularmente el tiempo de respuesta de la función. Los resultados obtenidos a partir de estas pruebas van a servir como un punto de referencia para experimentos futuros. La figura \ref{fig:serverless-image-handler-architecture-workflow} muestra una sugerencia de dos posibles cargas de trabajo: 
 
@@ -63,12 +65,12 @@ A la función Lambda se le realizarán pruebas con imágenes de entrada de disti
 En principio las cargas de trabajo generadas serían cerradas, lo que quiere decir que una solicitud se ejecuta solamente hasta que la anterior se termina. Esto ayudará en principio a tener mejor trazabilidad de lo que ocurre con la función.
 
 \paragraph{¿Por qué este caso de uso se considera relevante?}
-A continuación se listan las características que 
+A continuación se listan las características que hacen este caso de uso representativo e interesante:
 \begin{itemize}
     \item Sencillo de entender e implementar: se cuenta únicamente con una función la cual lleva a cabo una tarea muy específica.
     \item Popular: sigue un patrón de procesamiento dirigido por eventos y, como se señala en \cite{serverless-architecture-patterns}, este es uno de los más populares que se ha empezado a adoptar para aplicaciones \emph{serverless}.
     \item Replicable en otros proveedores de servicios en la nube: varias de las arquitecturas de referencia para \emph{serverless} propuestas por Amazon, están compuestas por herramientas y servicios muy propios de su plataforma lo cual hace muy difícil su reproducibilidad utilizando otros proveedores. Aunque en principio este trabajo plantea ser elaborado en la plataforma FaaS de Amazon Web Services, AWS Lambda, otros proveedores de servicios\footnote{\begin{itemize}\item[] Google Cloud Functions \url{https://cloud.google.com/functions} \item[] Azure Functions \url{https://azure.microsoft.com/en-us/services/functions} \item[] IBM Cloud Functions: \url{https://www.ibm.com/cloud/functions} \item[] Apache Open Whisk \url{https://openwhisk.apache.org/}  \end{itemize}} en la nube cuentan con sus propias plataformas de FaaS y de almacenamiento, lo cual permitiría replicar lo aquí propuesto en ellos.
-    \item Replicable en los lenguajes de programación soportados por plataformas FaaS: actualmente JavaScript, Java (y lenguajes basados en la \emph{Java Virtual Machine}), Python, C\# y Go son los principales lenguajes de programación soportados por las plataformas FaaS. El caso de uso propuesto, no presenta ningún tipo de característica que lo ate a un lenguaje de progrmación en particular. En todos ellos se cuentan con librerías para manejo de imágenes tanto de forma nativa como por medio de soluciones de terceros. 
+    \item Replicable en los lenguajes de programación soportados por plataformas FaaS: actualmente JavaScript, Java (y lenguajes basados en la \emph{Java Virtual Machine}), Python, C\# y Go son los principales lenguajes de programación soportados por las plataformas FaaS. El caso de uso propuesto, no presenta ningún tipo de característica que lo ate a un lenguaje de programación en particular. En todos ellos se cuentan con bibliotecas para manejo de imágenes tanto de forma nativa como por medio de soluciones de terceros. 
 \end{itemize}
 
 \section{Etapa 2}
@@ -109,4 +111,4 @@ Una vez que se cuente con una muestra de la ejecución de la función en formato
 \section{Etapa 3: ejecutar simulaciones sobre el modelo obtenido}
 \emph{Palladio Workbench}\footnote{\url{https://www.palladio-simulator.com/}} es la herramienta que permite crear y simular modelos basados en PCM. 
 
-Cuando se haya derivado un modelo de rendimiento de la función, se procederá a cargar este modelo en \emph{Palladio Workbench} para modificar y calibrar el modelo y, por medio de las herramientas de simulación que vienen con la herramienta, realizar experimentos con el fin de evaluar si los resultados se logran asemejar a los resultados previos de cuando la función fue expuesta a cargas de trabajo reales.
+Cuando se haya derivado un modelo de rendimiento de la función, se procederá a cargar este modelo en \emph{Palladio Workbench} para modificar y calibrar el modelo y, por medio de las herramientas de simulación que vienen con \emph{Palladio Workbench}, realizar experimentos con el fin de evaluar el grado de coincidencia de los resultados de la simulación con los obtenidos al exponer la función a cargas de trabajo reales.
