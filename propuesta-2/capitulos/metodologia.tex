@@ -2,14 +2,14 @@
 \subsection{Selección de caso de uso}
 Uno de los principales problemas de hacer ingeniería de rendimiento para software en la nube es que no existen aplicaciones de referencia las cuales hayan ganado popularidad o bien que su desarrollo se encuentre activo. A pesar de esto y de su reciente adopción, la industria ha empezado a reconocer casos de uso en donde aplicaciones \emph{serverless} encajan mejor. Amazon Web Services(AWS)\cite{serverless-architecture-patterns} reconoce cinco patrones de uso predominantes en su servicio AWS Lambda:
 \begin{enumerate}
-    \item Procesamiento de datos dirigidos por eventos
-    \item Aplicaciones Web
-    \item Aplicaciones móviles e Internet las cosas (IoT)
-    \item Ecosistemas de aplicaciones \emph{serverless}
-    \item Flujos de trabajo dirigidos eventos
+    \item Procesamiento de datos dirigidos por eventos.
+    \item Aplicaciones Web.
+    \item Aplicaciones móviles e Internet las cosas (IoT).
+    \item Ecosistemas de aplicaciones \emph{serverless}.
+    \item Flujos de trabajo dirigidos por eventos.
 \end{enumerate}
  
-Uno de las aplicaciones más comunes en \emph{serverless} es desencadenar acciones luego de que ocurre un evento, por ejemplo luego de la modificación de un registro en una base de datos o bien luego de que se publica un mensaje en una cola de mensajería. Esto puede provocar que se active una función lambda que toma como entrada el evento recién publicado para su posterior procesamiento. Este estilo de caso de uso encaja bien en ambientes híbridos: ambientes en donde tecnologías \emph{serverless} se aprovechan para realizar funciones específicas dentro de una aplicación (o aplicaciones) más grande.
+Uno de las aplicaciones más comunes en \emph{serverless} es desencadenar acciones luego de que ocurre un evento (1), por ejemplo luego de la modificación de un registro en una base de datos o bien luego de que se publica un mensaje en una cola de mensajería. Esto puede provocar que se active una función Lambda que toma como entrada el evento recién publicado para su posterior procesamiento. Este estilo de caso de uso encaja bien en ambientes híbridos: ambientes en donde tecnologías \emph{serverless} se aprovechan para realizar funciones específicas dentro de una aplicación (o aplicaciones) más grande.
 
 AWS ha publicado una serie de arquitecturas de referencias\cite{aws-lambda-ref-arch} para su plataforma FaaS, AWS Lambda. Dentro de estas arquitecturas se destaca el caso de uso de un manejador de imágenes (\emph{Image Handler})\cite{aws-lambda-image-handler}. 
 
@@ -46,21 +46,30 @@ Para este estudio se propone implementar una variación del manejador de imágen
 
 Se han dejado por fuerta intencionalmente el AWS CloudFront y el AWS API Gateway. La razón de esto es porque se pretende ejercitar la función Lambda directamentamente. Se implementará una función Lambda que entregue a partir de una imagen, otra con dimensiones diferentes. Por ejemplo si la imagen original mide 500 pixeles de ancho y alto, entregar una con dimensiones de 100 pixeles de ancho y alto. 
 
-A la función Lambda se le realizarán pruebas con imágenes de entrada de distinto tamaño para evaluar su comportamiento bajo estos escenarios, particularmente del tiempo de respuesta de la función. Los resultados obtenidos a partir de estas pruebas van a servir como un punto de referencia para experimentos futuros. La figura \ref{fig:serverless-image-handler-architecture-workflow} muestra una sugerencia de dos posibles cargas de trabajo: 
+A la función Lambda se le realizarán pruebas con imágenes de entrada de distinto tamaño para evaluar su comportamiento bajo estos escenarios, particularmente el tiempo de respuesta de la función. Los resultados obtenidos a partir de estas pruebas van a servir como un punto de referencia para experimentos futuros. La figura \ref{fig:serverless-image-handler-architecture-workflow} muestra una sugerencia de dos posibles cargas de trabajo: 
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=15cm]{serverless-image-handler-architecture-workflow}
+  \includegraphics[width=17cm]{serverless-image-handler-architecture-workflow-2}
   \caption[Carga de trabajo sugerida para el manejador de imágenes]{Carga de trabajo sugerida para el manejador de imágenes}
   \label{fig:serverless-image-handler-architecture-workflow}
 \end{figure}
 
 \begin{enumerate}
-    \item 1000 solicitudes de cambio de tamaño de una imagen grande (5Mb o más)
-    \item 1000 solicitudes de cambio de tamaño de una imagen pequeña (menor o igual a 500Kb)
+    \item 1000 solicitudes de cambio de tamaño de una imagen grande. En la figura \ref{fig:serverless-image-handler-architecture-workflow}, \texttt{imagen-2.jpg} de tamaño de 5Mb, representa una imagen grande.
+    \item 1000 solicitudes de cambio de tamaño de una imagen pequeña. En la figura \ref{fig:serverless-image-handler-architecture-workflow}, \texttt{imagen-1.jpg} de tamaño menor o igual a 500Kb, representa una imagen pequeña.
 \end{enumerate}
 
 En principio las cargas de trabajo generadas serían cerradas, lo que quiere decir que una solicitud se ejecuta solamente hasta que la anterior se termina. Esto ayudará en principio a tener mejor trazabilidad de lo que ocurre con la función.
+
+\paragraph{¿Por qué este caso de uso se considera relevante?}
+A continuación se listan las características que 
+\begin{itemize}
+    \item Sencillo de entender e implementar: se cuenta únicamente con una función la cual lleva a cabo una tarea muy específica.
+    \item Popular: sigue un patrón de procesamiento dirigido por eventos y, como se señala en \cite{serverless-architecture-patterns}, este es uno de los más populares que se ha empezado a adoptar para aplicaciones \emph{serverless}.
+    \item Replicable en otros proveedores de servicios en la nube: varias de las arquitecturas de referencia para \emph{serverless} propuestas por Amazon, están compuestas por herramientas y servicios muy propios de su plataforma lo cual hace muy difícil su reproducibilidad utilizando otros proveedores. Aunque en principio este trabajo plantea ser elaborado en la plataforma FaaS de Amazon Web Services, AWS Lambda, otros proveedores de servicios\footnote{\begin{itemize}\item[] Google Cloud Functions \url{https://cloud.google.com/functions} \item[] Azure Functions \url{https://azure.microsoft.com/en-us/services/functions} \item[] IBM Cloud Functions: \url{https://www.ibm.com/cloud/functions} \item[] Apache Open Whisk \url{https://openwhisk.apache.org/}  \end{itemize}} en la nube cuentan con sus propias plataformas de FaaS y de almacenamiento, lo cual permitiría replicar lo aquí propuesto en ellos.
+    \item Replicable en los lenguajes de programación soportados por plataformas FaaS: actualmente JavaScript, Java (y lenguajes basados en la \emph{Java Virtual Machine}), Python, C\# y Go son los principales lenguajes de programación soportados por las plataformas FaaS. El caso de uso propuesto, no presenta ningún tipo de característica que lo ate a un lenguaje de progrmación en particular. En todos ellos se cuentan con librerías para manejo de imágenes tanto de forma nativa como por medio de soluciones de terceros. 
+\end{itemize}
 
 \section{Etapa 2}
 
@@ -72,11 +81,11 @@ Para obtener un modelo a partir del comportamiento de una función, se propone a
 \begin{figure}[h]
   \centering
   \includegraphics[width=17cm]{declarative-performance-engineering}
-  \caption[Herramientas utilizadas para ingeniería de rendimiento declarativa]{Herramientas utilizadas para ingeniería de rendimiento declarativa. Tomado de \cite{Walter:2018:TDP:3185768.3185777}}
+  \caption[Herramientas utilizadas para ingeniería de rendimiento declarativo]{Herramientas utilizadas para ingeniería de rendimiento declarativo. Tomado de \cite{Walter:2018:TDP:3185768.3185777}}
   \label{fig:declarative-performance-engineering}
 \end{figure}
 
-La figura \ref{fig:declarative-performance-engineering} muestra las herramientas involucradas en el proceso de ingeniería de rendimiento declarativa. Pueden clasificarse en: herramientas para determinar niveles de servicio, para interpretar mediciones obtenidas por medio de la ejecución de un sistema, para extraer modelos de rendimiento y para visualización resultados. En las figura \ref{fig:declarative-performance-engineering} estas herramientas son:
+La figura \ref{fig:declarative-performance-engineering} muestra las herramientas involucradas en el proceso de ingeniería de rendimiento declarativo. Pueden clasificarse en: herramientas para determinar niveles de servicio, para interpretar mediciones obtenidas por medio de la ejecución de un sistema, para extraer modelos de rendimiento y para visualización resultados. En las figura \ref{fig:declarative-performance-engineering} estas herramientas son:
 \begin{itemize}
     \item \textbf{DPE Framework (DPE)}: herramienta para determinar los niveles de servicio de un sistema. Esto lo logra mediante el \emph{Descartes Query Language}(DQL), un lenguaje de consultar indicadores de rendimiento. DPE también incluye \emph{Performance Analysis Visualization}(PAVO) para la visualización de indicadores de rendimiento.
     \item \textbf{Kieker}: una herramienta para el monitoreo del rendimiento de la aplicación (APM por sus siglas en inglés). 
@@ -84,16 +93,20 @@ La figura \ref{fig:declarative-performance-engineering} muestra las herramientas
 \end{itemize}
 
 \subsection{Enfoque de trabajo propuesto}
-El enfoque que se propone para obtener un modelo de rendimiento a partir de una función, es similar al de Walter et al. pero carece del uso de las herramientas para determinar y consultar niveles de servicio también de visualización. La figura \ref{fig:flujo-de-trabajo-propuesto} muestra los participanes involucrados para lograr esta tarea. 
+El enfoque que se propone para obtener un modelo de rendimiento a partir de una función, es similar al de Walter et al. pero se omite del uso de las herramientas para determinar y consultar niveles de servicio, y también de visualización. La figura \ref{fig:flujo-de-trabajo-propuesto} muestra los participanes involucrados para lograr esta tarea. 
 
 A partir de las cargas de trabajo a las que fue sometida la función Lambda, métricas de rendimiento serán introducidas dentro del servicio Amazon CloudWatch, este será la bitácora de la función. Para migrar las métricas de CloudWatch en Kieker, se pretende implementar un adaptador con el fin de tomar una muestra de la bitácora y convertirla a un formato que pueda ser entendido por Kieker. Otra alternativa que se valora es la de publicar las métricas de rendimiento directamente en Kieker  desde la función. 
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=17cm]{flujo-de-trabajo-propuesto}
+  \includegraphics[width=17cm]{flujo-de-trabajo-propuesto-2}
   \caption{Enfoque de trabajo propuesto}
   \label{fig:flujo-de-trabajo-propuesto}
 \end{figure}
 
 Una vez que se cuente con una muestra de la ejecución de la función en formato Kieker, esta va a servir como entrada para PMX con el fin de obtener un modelo de rendimiento en PCM. El modelo será utilizado para la ejecución de simulaciones.
 
+\section{Etapa 3: ejecutar simulaciones sobre el modelo obtenido}
+\emph{Palladio Workbench}\footnote{\url{https://www.palladio-simulator.com/}} es la herramienta que permite crear y simular modelos basados en PCM. 
+
+Cuando se haya derivado un modelo de rendimiento de la función, se procederá a cargar este modelo en \emph{Palladio Workbench} para modificar y calibrar el modelo y, por medio de las herramientas de simulación que vienen con la herramienta, realizar experimentos con el fin de evaluar si los resultados se logran asemejar a los resultados previos de cuando la función fue expuesta a cargas de trabajo reales.
