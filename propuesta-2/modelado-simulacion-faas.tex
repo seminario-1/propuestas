@@ -4,7 +4,7 @@
 \usepackage[spanish]{babel}
 \usepackage[letterpaper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
 \usepackage{utopia}
-%\usepackage[nottoc]{tocbibind}
+\usepackage{pdfpages}
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage[font=small,labelfont=bf]{caption}
@@ -26,8 +26,8 @@
 \usepackage{graphicx}
 \graphicspath{ {imagenes/} }
 
-\usepackage[mark,markifdirty]{gitinfo2}
-\renewcommand{\gitMark}{\centering{Branch: \gitBranch,@\,\gitAbbrevHash{} \textbullet{} Release:\gitReln{} (\gitAuthorIsoDate)\\ Commiter:\gitCommitterName, Head tags:\gitTags} \textbullet{} References: \gitReferences}
+\usepackage[]{gitinfo2}
+%\renewcommand{\gitMark}{\centering{Branch: \gitBranch,@\,\gitAbbrevHash{} \textbullet{} Release:\gitReln{} (\gitAuthorIsoDate)\\ Commiter:\gitCommitterName, Head tags:\gitTags} \textbullet{} References: \gitReferences}
 
 \setcounter{tocdepth}{4}
 \setlength{\parskip}{1em}
@@ -66,7 +66,24 @@
 \renewcommand*\contentsname{Índice}
 \tableofcontents
 \listoffigures
-\listoftables
+%\listoftables
+
+\newpage
+{\footnotesize
+\noindent
+\texttt{
+Git: \gitReferences \\
+Branch: \gitBranch \\
+Tag: \gitVtag \\
+Release: \gitReln{} \\
+Commit: \gitAbbrevHash \\
+Fecha: \gitAuthorIsoDate \\
+Autor: \gitAuthorName\\
+Email: \gitAuthorEmail\\
+Committer: \gitCommitterName\\
+Committer email: \gitCommitterEmail
+}}
+\newpage
 
 \chapter{Introducción}
 \pagenumbering{arabic}
@@ -94,6 +111,7 @@
 \input{capitulos/metodologia}
 
 \chapter{Cronograma de actividades}
+\input{capitulos/cronograma}
 
 \addcontentsline{toc}{chapter}{Bibliografía}
 \bibliographystyle{ieeetr}
