@@ -64,14 +64,7 @@ Las actividades involucradas en el proceso de redimensionamientos de imágenes s
 \end{figure}
 
 
-A la función Lambda se le realizarán pruebas con imágenes de entrada de distinto tamaño para evaluar su comportamiento bajo estos escenarios, particularmente el tiempo de respuesta de la función. Los resultados obtenidos a partir de estas pruebas van a servir como un punto de referencia para experimentos futuros. La figura \ref{fig:serverless-image-handler-architecture-workflow} muestra una sugerencia de dos posibles cargas de trabajo: 
-
-%\begin{figure}[h]
-%  \centering
-%  \includegraphics[width=17cm]{serverless-image-handler-architecture-workflow-2}
-%  \caption[Carga de trabajo sugerida para el manejador de imágenes]{Carga de trabajo sugerida para el manejador de imágenes}
-%  \label{fig:serverless-image-handler-architecture-workflow}
-%\end{figure}
+A la función Lambda se le realizarán pruebas con imágenes de entrada de distinto tamaño y cargas de trabajo variables para evaluar su comportamiento bajo estos escenarios. Se desea observar el impacto de las pruebas en el tiempo de respuesta de la función. Los resultados obtenidos a partir de estas pruebas van a servir como un punto de referencia para experimentos futuros, como los que se indican en la Sección \ref{sec:experimentos-propuestos}. La figura \ref{fig:serverless-image-handler-architecture-workflow} muestra una sugerencia de dos posibles cargas de trabajo: 
 
 \begin{enumerate}
     \item 1000 solicitudes de cambio de tamaño de una imagen grande. En la figura \ref{fig:serverless-image-handler-architecture-workflow}, \texttt{imagen-2.jpg} de tamaño de 5Mb, representa una imagen grande.
@@ -89,7 +82,21 @@ A continuación se listan las características que hacen este caso de uso repres
     \item Replicable en los lenguajes de programación soportados por plataformas FaaS: actualmente JavaScript, Java (y lenguajes basados en la \emph{Java Virtual Machine}), Python, C\# y Go son los principales lenguajes de programación soportados por las plataformas FaaS. El caso de uso propuesto, no presenta ningún tipo de característica que lo ate a un lenguaje de programación en particular. En todos ellos se cuentan con bibliotecas para manejo de imágenes tanto de forma nativa como por medio de soluciones de terceros. 
 \end{itemize}
 
-\subsection{Experimentos propuestos}
+\subsection{Experimentos propuestos} \label{sec:experimentos-propuestos}
+
+\paragraph{1. Probar la función en la nube con distintos tamaños de imágenes:} Este es el caso que menciona en la Sección \ref{sec:manejador-imagenes-spe} y se muestra en la figura \ref{fig:serverless-image-handler-architecture-spe}. Se probará la función en la nube con dos imágenes: una de tamaño grande (\textasciitilde 5Mb) y una de tamaño pequeño (\textasciitilde 500Kb). El objetivo es comprobar cómo los distintos tamaños de las imágenes influyen en el tiempo de respuesta de la función.
+
+Intuitivamente, se espera que las imágenes de mayor tamaño tomen más tiempo en ser redimensionadas y que lo contrario suceda con las imágenes de menor tamaño. Los resultados obtenidos brindarán una referencia para saber cómo es que los componentes de software asociados al redimiensiomiendo de la imagen trabajan y qué posibles mejoras podrían realizarse. 
+
+\paragraph{2. Variar volúmenes de envío por unidad de tiempo:} Se ejercitará la función en la nube con una solicitud de redimensionamiento que se repetirá por un tiempo determinado. Por ejemplo:
+\begin{itemize}
+    \item Una carga de trabajo cerrada de una solicitud de redimensionamiento que se repetirá durante 30 minutos. 
+\end{itemize}
+
+El objetivo es observar si los tiempos de respuesta de las solicitudes hechas hacia el final del tiempo de ejecución de la prueba son menores a los tiempos de respuesta de las solicitudes hechas al inicio de la prueba. Esto sugeriría (tal y como se señala en \cite{8360324}) que durante las etapas de ejecución inicial de la prueba la función se encontraría en un estado ``frío'', es decir, su infraestructura subyacente necesita ser aprovisionada, mientras que hacia el final de la prueba la función estaría en un estado ``caliente'', en donde la infraestructura de la función estaría altamente disponible para procesar las solicitudes entrantes. 
+
+\paragraph{Variar intervalo entre lanzamientos de actividad hacia los servidores}
+ 
 
 \section{Etapa 2}
 
